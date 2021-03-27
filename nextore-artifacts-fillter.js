@@ -32,7 +32,6 @@ const artifactFiller = ()=>$('.ms-List-surface:first .ms-List-page > [role=prese
     alias: $(artifact).find('.flat-view-text-preserve').text(),
     tfsEnhancements: $(artifact).find('.combo[id^="vss_"]').data().tfsEnhancements,
     option() {
-        console.log($(artifact).find('.combo[id^="vss_"]').data());
         return this.tfsEnhancements[0]
     },
     dataSource() {
