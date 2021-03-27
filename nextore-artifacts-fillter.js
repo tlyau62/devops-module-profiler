@@ -16,8 +16,6 @@ jQuery.noConflict();
 (function($) {
     'use strict';
 
-    $.noConflict();
-
     const mapping = {
         'BD-EPS-Frontend': '',
         'ECMCommon': 'NexTore.ECM.Common',
@@ -73,6 +71,4 @@ jQuery.noConflict();
     }))
 
     window.filler = () => artifactFiller().forEach(artifact => artifact.setVersion());
-
-    console.log('不要成日誤會我, 好嗎?');
 })(jQuery);
