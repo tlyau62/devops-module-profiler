@@ -1,9 +1,9 @@
 // ==UserScript==
-// @name         New Userscript
+// @name         Nextore artifacts filler
 // @namespace    http://tampermonkey.net/
 // @version      0.1
 // @description  try to take over the world!
-// @author       You
+// @author       Tsz Lam
 // @match        https://nexifyhk.visualstudio.com/NexToreV3/*
 // @icon         data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
 // @require      https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js
@@ -17,8 +17,6 @@ jQuery.noConflict();
     'use strict';
 
     $.noConflict();
-
-    console.log('不要成日誤會我, 好嗎?');
 
     const mapping = {
         'BD-EPS-Frontend': '',
@@ -75,4 +73,6 @@ jQuery.noConflict();
     }))
 
     window.filler = () => artifactFiller().forEach(artifact => artifact.setVersion());
+
+    console.log('不要成日誤會我, 好嗎?');
 })(jQuery);
