@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Nextore artifacts filler
 // @namespace    http://tampermonkey.net/
-// @version      0.2
+// @version      0.3
 // @description  from Tsz Lam
 // @author       Tsz Lam
 // @match        https://nexifyhk.visualstudio.com/NexToreV3/*
