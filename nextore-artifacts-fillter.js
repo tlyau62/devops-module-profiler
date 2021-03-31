@@ -15,6 +15,7 @@
 
   const saver = (function () {
     let artifacts = [];
+    let releaseVer = "";
 
     const artifactList = () =>
       $(
@@ -42,7 +43,10 @@
 
     const extractArtifacts = () => artifactList().map(mapArtifacts);
 
-    const saveArtifacts = () => (artifacts = extractArtifacts());
+    const saveArtifacts = () => {
+      artifacts = extractArtifacts();
+      releaseVer = $(".internal-breadcrumb--item:last").text();
+    };
 
     return {
       saveArtifacts,
@@ -53,6 +57,7 @@
           version: artifact.version(),
           branch: artifact.branch(),
         })),
+      releaseVer: () => releaseVer,
     };
   })();
 
@@ -108,7 +113,9 @@
     };
   })();
 
-  const $saveBtn = $("<button>save</button>");
+  const $saveBtn = $(
+    "<button>save<span id='profiler-release'></span></button>"
+  );
   const $loadBtn = $("<button>load</button>");
   const $logBtn = $("<button>log</button>");
   const $wrapper = $(
@@ -132,6 +139,7 @@
 
   $saveBtn.click(() => {
     saver.saveArtifacts();
+    $("#profiler-release").text(` (${saver.releaseVer()})`);
     alert(`${saver.artifacts().length} artifacts are saved.`);
   });
   $loadBtn.click(() => {
