@@ -87,13 +87,6 @@ jQuery.noConflict();
             this.input().val(val);
             this.input().trigger("change");
           },
-          loadVersion(artifacts) {
-            const targetArtifact = artifacts.find(
-              (artifact) => artifact.alias() === this.alias
-            );
-
-            this.setInput(targetArtifact.version());
-          },
         }));
 
     const fillVersions = (versionFinder) =>
