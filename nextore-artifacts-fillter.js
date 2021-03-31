@@ -6,12 +6,9 @@
 // @author       Tsz Lam
 // @match        https://nexifyhk.visualstudio.com/NexToreV3/*
 // @icon         data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
-// @require      https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js
-// @require      https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js
 // @grant        none
+// @run-at       document-idle
 // ==/UserScript==
-
-jQuery.noConflict();
 
 (function ($) {
   "use strict";
@@ -49,7 +46,13 @@ jQuery.noConflict();
 
     return {
       saveArtifacts,
-      artifacts: () => artifacts,
+      artifacts: () =>
+        artifacts.map((artifact) => ({
+          artifact: artifact.artifact,
+          alias: artifact.alias(),
+          version: artifact.version(),
+          branch: artifact.branch(),
+        })),
     };
   })();
 
@@ -97,14 +100,52 @@ jQuery.noConflict();
       );
 
     const findLastVersion = (artifactControl, artifacts) =>
-      artifactControl.setInput(
-        artifacts.find((artifact) => artifact.alias() === artifactControl.alias)
-      );
+      artifacts.find((artifact) => artifact.alias === artifactControl.alias)
+        .version;
 
     return {
       fillLastVersions: () => fillVersions(findLastVersion),
     };
   })();
+
+  const $saveBtn = $("<button>save</button>");
+  const $loadBtn = $("<button>load</button>");
+  const $logBtn = $("<button>log</button>");
+  const $wrapper = $(
+    "<div id='profiler-wrapper'><h6>Module profiler</h6></div>"
+  );
+  const $wrapperStyle = $(`
+  <style>
+    #profiler-wrapper {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      z-index: 9999999;
+      background: white;
+    }
+
+    #profiler-wrapper h6 {
+      margin: 0;
+      text-align: center;
+    }
+  </style>`);
+
+  $saveBtn.click(() => {
+    saver.saveArtifacts();
+    alert(`${saver.artifacts().length} artifacts are saved.`);
+  });
+  $loadBtn.click(() => {
+    if (saver.artifacts() === 0) {
+      alert("No artifact is found");
+    }
+    loader.fillLastVersions();
+  });
+  $logBtn.click(() => console.log(saver.artifacts()));
+  $wrapper.append($saveBtn);
+  $wrapper.append($loadBtn);
+  $wrapper.append($logBtn);
+  $(document.body).append($wrapper);
+  $(document.body).append($wrapperStyle);
 
   window.nextoreArtifacts = {
     saver,
@@ -112,4 +153,4 @@ jQuery.noConflict();
   };
 
   console.log("Keep smile");
-})($);
+})(jQuery);
