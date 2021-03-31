@@ -96,11 +96,20 @@ jQuery.noConflict();
           },
         }));
 
-    const fillLastVersion = (artifacts) =>
-      artifactFiller().forEach((artifact) => artifact.loadVersion(artifacts));
+    const fillVersions = (versionFinder) =>
+      artifactFiller().forEach((artifactControl) =>
+        artifactControl.setInput(
+          versionFinder(artifactControl, saver.artifacts())
+        )
+      );
+
+    const findLastVersion = (artifactControl, artifacts) =>
+      artifactControl.setInput(
+        artifacts.find((artifact) => artifact.alias() === artifactControl.alias)
+      );
 
     return {
-      fillLastVersion: () => fillLastVersion(saver.artifacts()),
+      fillLastVersions: () => fillVersions(findLastVersion),
     };
   })();
 
