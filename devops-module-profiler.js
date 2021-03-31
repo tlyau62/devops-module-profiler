@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         Nextore artifacts filler
+// @name         devops-module-profiler
 // @namespace    http://tampermonkey.net/
 // @version      0.3
 // @description  from Tsz Lam
