@@ -6,11 +6,15 @@
 // @author       Tsz Lam
 // @match        https://nexifyhk.visualstudio.com/NexToreV3/*
 // @icon         data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
+// @require      https://code.jquery.com/jquery-3.6.0.slim.min.js
 // @grant        none
-// @run-at       document-idle
+// @run-at       document-end
 // ==/UserScript==
 
-(function ($) {
+/**
+ * jquery will be overwritten by ms devops default jquery after window.onload
+ */
+(function ($$) {
   "use strict";
 
   const saver = (function () {
@@ -113,15 +117,15 @@
     };
   })();
 
-  const $saveBtn = $(
+  const $saveBtn = $$(
     "<button>save<span id='profiler-release'></span></button>"
   );
-  const $loadBtn = $("<button>load</button>");
-  const $logBtn = $("<button>log</button>");
-  const $wrapper = $(
+  const $loadBtn = $$("<button>load</button>");
+  const $logBtn = $$("<button>log</button>");
+  const $wrapper = $$(
     "<div id='profiler-wrapper'><h6>Module profiler</h6></div>"
   );
-  const $wrapperStyle = $(`
+  const $wrapperStyle = $$(`
   <style>
     #profiler-wrapper {
       position: absolute;
@@ -139,7 +143,7 @@
 
   $saveBtn.click(() => {
     saver.saveArtifacts();
-    $("#profiler-release").text(` (${saver.releaseVer()})`);
+    $$("#profiler-release").text(` (${saver.releaseVer()})`);
     alert(`${saver.artifacts().length} artifacts are saved.`);
   });
   $loadBtn.click(() => {
@@ -152,8 +156,8 @@
   $wrapper.append($saveBtn);
   $wrapper.append($loadBtn);
   $wrapper.append($logBtn);
-  $(document.body).append($wrapper);
-  $(document.body).append($wrapperStyle);
+  $$(document.body).append($wrapper);
+  $$(document.body).append($wrapperStyle);
 
   window.nextoreArtifacts = {
     saver,
@@ -161,4 +165,4 @@
   };
 
   console.log("Keep smile");
-})(jQuery);
+})($.noConflict(true));
