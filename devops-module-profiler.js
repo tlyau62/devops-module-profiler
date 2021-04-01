@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         devops-module-profiler
 // @namespace    http://tampermonkey.net/
-// @version      0.3
+// @version      0.4
 // @description  from Tsz Lam
 // @author       Tsz Lam
 // @match        https://nexifyhk.visualstudio.com/NexToreV3/*
@@ -99,6 +99,9 @@
             this.input().val(val);
             this.input().trigger("change");
           },
+          getInput() {
+            return this.input().val();
+          },
         }));
 
     const fillVersions = (versionFinder) =>
@@ -108,9 +111,17 @@
         )
       );
 
-    const findLastVersion = (artifactControl, artifacts) =>
-      artifacts.find((artifact) => artifact.alias === artifactControl.alias)
-        .version;
+    const findLastVersion = (artifactControl, artifacts) => {
+      const last = artifacts.find(
+        (artifact) => artifact.alias === artifactControl.alias
+      );
+
+      if (last) {
+        return last.version;
+      }
+
+      return artifactControl.getInput();
+    };
 
     return {
       fillLastVersions: () => fillVersions(findLastVersion),
